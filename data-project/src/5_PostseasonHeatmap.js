@@ -110,6 +110,18 @@ class PostseasonHeatmap extends Component {
     const g = svg.append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
+    // Add tooltip div here
+    const tooltip = d3.select(this.chartRef.current)
+      .append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0)
+      .style("position", "absolute")
+      .style("background-color", "white")
+      .style("border", "1px solid #ddd")
+      .style("border-radius", "3px")
+      .style("padding", "10px")
+      .style("pointer-events", "none");
+
     // Define the rounds and seeds
     const rounds = ['R64', 'R32', 'S16', 'E8', 'F4', '2ND', 'Champions'];
     const seeds = Array.from({length: 16}, (_, i) => i + 1);
@@ -146,8 +158,19 @@ class PostseasonHeatmap extends Component {
       .attr("width", xScale.bandwidth())
       .attr("height", yScale.bandwidth())
       .attr("fill", d => colorScale(d.value))
-      .append("title")
-      .text(d => `Seed: ${d.seed}, Round: ${d.round}\nPercentage: ${(d.value * 100).toFixed(1)}%`);
+      .on("mouseover", function(event, d) {
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9);
+        tooltip.html(`Seed: ${d.seed}, Round: ${d.round}<br>Percentage: ${(d.value * 100).toFixed(1)}%`)
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", function() {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
+      });
 
     // Add axes
     g.append("g")
@@ -166,7 +189,7 @@ class PostseasonHeatmap extends Component {
     svg.append("text")
       .attr("class", "chart-title")
       .attr("x", width / 2)
-      .attr("y", 15)
+      .attr("y", 30)
       .attr("text-anchor", "middle")
       .text(`NCAA Tournament Advancement by Seed (${this.state.selectedYear})`);
 
@@ -186,7 +209,7 @@ class PostseasonHeatmap extends Component {
     const legendWidth = 200;
     const legendHeight = 20;
     const legendX = width - margin.right - legendWidth;
-    const legendY = margin.top / 2;
+    const legendY = height - margin.bottom + 80;
 
     const legendScale = d3.scaleLinear()
       .domain([0, 1])
@@ -220,7 +243,7 @@ class PostseasonHeatmap extends Component {
       .ticks(5);
 
     svg.append("g")
-      .attr("transform", `translate(${legendX},${legendY + legendHeight})`)
+      .attr("transform", `translate(${legendX},${legendY})`)
       .call(legendAxis);
 
     svg.append("text")
@@ -240,8 +263,7 @@ class PostseasonHeatmap extends Component {
 
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <div className="chart-title">NCAA Tournament Advancement by Seed</div>
-        <div className="year-slider" style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+        <div className="year-slider" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
           <span style={{ marginRight: '10px' }}>Season: {selectedYear}</span>
           <input 
             type="range" 
