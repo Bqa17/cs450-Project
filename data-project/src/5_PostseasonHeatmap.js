@@ -186,7 +186,7 @@ class PostseasonHeatmap extends Component {
     const legendWidth = 200;
     const legendHeight = 20;
     const legendX = width - margin.right - legendWidth;
-    const legendY = margin.top / 2;
+    const legendY = margin.bottom + 190;
 
     const legendScale = d3.scaleLinear()
       .domain([0, 1])
@@ -232,6 +232,31 @@ class PostseasonHeatmap extends Component {
   }
 
   render() {
+    const styles = {
+      container: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#d8f4ef',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: '8px',
+        color: '#333',
+        fontWeight: 'bold',
+        border: '2px dashed #97dee7'
+
+      },
+      title: {
+        marginBottom: '10px',
+        fontSize: '1.2rem'
+      },
+      subtitle: {
+        fontSize: '0.9rem',
+        color: '#666'
+      }
+    }
+    
     const { selectedYear, yearRange } = this.state;
 
     if (!yearRange) {
@@ -239,20 +264,22 @@ class PostseasonHeatmap extends Component {
     }
 
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <div className="chart-title">NCAA Tournament Advancement by Seed</div>
-        <div className="year-slider" style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-          <span style={{ marginRight: '10px' }}>Season: {selectedYear}</span>
-          <input 
-            type="range" 
-            min={yearRange[0]} 
-            max={yearRange[1]} 
-            value={selectedYear} 
-            onChange={this.handleYearChange} 
-            style={{ flex: 1 }}
-          />
+      <div style={styles.container}>
+        <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <div className="chart-title">NCAA Tournament Advancement by Seed</div>
+          <div className="year-slider" style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+            <span style={{ marginRight: '10px' }}>Season: {selectedYear}</span>
+            <input 
+              type="range" 
+              min={yearRange[0]} 
+              max={yearRange[1]} 
+              value={selectedYear} 
+              onChange={this.handleYearChange} 
+              style={{ flex: 1 }}
+            />
+          </div>
+          <div ref={this.chartRef} style={{ flex: 1 }}></div>
         </div>
-        <div ref={this.chartRef} style={{ flex: 1 }}></div>
       </div>
     );
   }
