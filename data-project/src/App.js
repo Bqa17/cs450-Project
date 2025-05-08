@@ -53,20 +53,20 @@ class App extends Component {
       <div className="dashboard">
         <h1>College Basketball Data Dashboard</h1>
         <div className="dashboard-grid">
-          <div className="dashboard-item">
-            <ConferenceBarChart data={data} />
+        <div className="dashboard-item">
+            <PostseasonHeatmap data={data} />
           </div>
           <div className="dashboard-item">
             <WinsLineGraph data={data} />
+          </div>
+          <div className="dashboard-item">
+            <ConferenceBarChart data={data} />
           </div>
           <div className="dashboard-item">
             <TurnoverScatterplot data={data} />
           </div>
           <div className="dashboard-item">
             <SeedScatterplot data={data} />
-          </div>
-          <div className="dashboard-item">
-            <PostseasonHeatmap data={data} />
           </div>
           <div className="dashboard-item">
             <ShootingStackedBar data={data} />
