@@ -67,8 +67,13 @@ class ShootingStackedBar extends Component {
 
       // X-axis
       svg.append('g')
-            .attr('transform', `translate(0,${height})`)
-            .call(d3.axisBottom(xScale));
+      .attr('transform', `translate(0,${height})`)
+      .call(d3.axisBottom(xScale))
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .style('font-size', '7px')
+      .attr("transform", "rotate(-70)");
+            
       
       // Y-axis
       svg.append('g')
