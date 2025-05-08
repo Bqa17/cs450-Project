@@ -185,8 +185,8 @@ class PostseasonHeatmap extends Component {
     // Add color legend
     const legendWidth = 200;
     const legendHeight = 20;
-    const legendX = width - margin.right - legendWidth;
-    const legendY = margin.bottom + 190;
+    const legendX = width - margin.right - 180;
+    const legendY = margin.bottom + 160;
 
     const legendScale = d3.scaleLinear()
       .domain([0, 1])
@@ -265,7 +265,7 @@ class PostseasonHeatmap extends Component {
 
     return (
       <div style={styles.container}>
-        <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ width: '90%', height: '90%', display: 'flex', flexDirection: 'column' }}>
           <div className="chart-title">NCAA Tournament Advancement by Seed</div>
           <div className="year-slider" style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
             <span style={{ marginRight: '10px' }}>Season: {selectedYear}</span>
